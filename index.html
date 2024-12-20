@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プロスポーツチーム会員制アプリ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+            position: relative;
+        }
+        nav {
+            background-color: #555;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        section {
+            display: none;
+        }
+        section.active {
+            display: block;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f9;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        #userInfo {
+            position: absolute; right: 20px; top: 10px; color: #fff;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>プロスポーツチーム会員制アプリ</h1>
+        <div id="userInfo"></div>
+    </header>
+    <nav>
+        <a onclick="showSection('news')">ニュース</a>
+        <a onclick="showSection('schedule')">試合スケジュール</a>
+        <a onclick="showSection('players')">選手情報</a>
+        <a onclick="showPoints()">現在のポイント</a>
+    </nav>
+    <div class="container">
+        <section id="news" class="active">
+            <h2>ニュース</h2>
+            <p>最新のニュースは<a href="https://www.hokkokubank.co.jp/honeybee/news/index.html" target="_blank">こちら</a>からご覧ください。</p>
+        </section>
+        <section id="schedule">
+            <h2>スケジュール</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>日付</th>
+                        <th>時間</th>
+                        <th>対戦相手</th>
+                        <th>会場名</th>
+                        <th>結果</th>
+                        <th>スコア</th>
+                        <th>GPS確認</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    <td>2024/09/08</td>
+                    <td>14:00</td>
+                    <td>大阪ラヴィッツ</td>
+                    <td>小松総合体育館</td>
+                    <td>◯</td>
+                    <td>30 (16-6, 14-9) 15</td>
+                    <td><button onclick="checkLocation(36.5284308, 136.6282581, '小松総合体育館')">GPS確認</button></td>
+                    </tr>
+                    <tr>
+                    <td>2024/09/14</td>
+                    <td>13:00</td>
+                    <td>香川銀行GiraSol kagawa</td>
+                    <td>高松市香川総合体育館</td>
+                    <td>◯</td>
+                    <td>37 (21-9, 16-11) 20</td>
+                    <td><button onclick="checkLocation(34.2550985, 134.028705, '高松市香川総合体育館')">GPS確認</button></td>
+                    </tr>
+                    <tr>
+                    <td>2024/09/16</td>
+                    <td>16:00</td>
+                    <td>ＨＣ名古屋</td>
+                    <td>末広体育館（義経アリーナ）</td>
+                    <td>●</td>
+                    <td>21 (10-9, 11-14) 23</td>
+                    <td><button onclick="checkLocation(36.4024958, 136.4412513, '末広体育館（義経アリーナ）')">GPS確認</button></td>
+                    </tr>
+                    <tr>
+                    <td>2024/09/21</td>
+                    <td>14:00</td>
+                    <td>イズミメイプルレッズ広島</td>
+                    <td>シシンヨーオークアリーナ（呉市総合体育館）</td>
+                    <td>△</td>
+                    <td>22 (15-11, 7-11) 22</td>
+                    <td><button onclick="checkLocation(34.2323727, 132.626525, 'シシンヨーオークアリーナ（呉市総合体育館）')">GPS確認</button></td>
+                    </tr>
+                    <tr>
+                    <td>2024/09/23</td>
+                    <td>15:00</td>
+                    <td>熊本ビューストピンディーズ</td>
+                    <td>小松総合体育館</td>
+                    <td>△</td>
+                    <td>26 (13-12, 13-14) 26</td>
+                    <td><button onclick="checkLocation(36.403964896025, 136.43712669201, '小松総合体育館')">GPS確認</button></td>
+                    </tr>
+                    <tr>
+                    <td>2025/09/29</td>
+                    <td>13:00</td>
+                    <td>飛騨高山ブラックブルズ岐阜</td>
+                    <td>飛騨高山ビッグアリーナ</td>
+                    <td>〇</td>
+                    <td>23 (12-13, 11-9) 22</td>
+                    <td><button onclick="checkLocation(36.1505567, 137.2327984, '飛騨高山ビッグアリーナ')">GPS確認</button></td>
+                    </tr>
+                    <tr>
+                    <td>2025/10/06</td>
+                    <td>12:30</td>
+                    <td>ザ・テラスホテルズ　ライーダ琉球</td>
+                    <td>沖縄県立武道館アリーナ</td>
+                    <td>〇</td>
+                    <td>29 (14-12, 15-10) 22</td>
+                    <td><button onclick="checkLocation(26.2047632, 127.6735874, '沖縄県立武道館アリーナ')">GPS確認</button></td>
+                    </tr>
+                    <tr>
+                    <td>2025/01/11</td>
+                    <td>14:00</td>
+                    <td>三重バイオレットアイリス</td>
+                    <td>小松総合体育館</td>
+                    <td></td>
+                    <td></td>
+                    <td><button onclick="checkLocation(36.403964896025, 136.43712669201, '小松総合体育館')">GPS確認</button></td>
+                    </tr>
+                    <tr>
+                    <td>2025/01/13</td>
+                    <td>13:30</td>
+                    <td>プレステージ・インターナショナル　アランマーレ富山</td>
+                    <td>アルビス小杉総合体育センター</td>
+                    <td></td>
+                    <td></td>
+                    <td><button onclick="checkLocation(36.7234187, 137.11344, 'アルビス小杉総合体育センター')">GPS確認</button></td>
+                    </tr>
+                    <tr>
+                    <td>2025/01/18</td>
+                    <td>12:00</td>
+                    <td>ソニーセミコンダクタマニュファクチャリング　ブルーサクヤ鹿児島</td>
+                    <td>本宮市総合体育館</td>
+                    <td></td>
+                    <td></td>
+                    <td><button onclick="checkLocation(37.5054649, 140.4137575, '本宮市総合体育館')">GPS確認</button></td>
+                    </tr>
+                    <tr>
+                    <td>2025/02/01</td>
+                    <td>13:30</td>
+                    <td>大阪ラヴィッツ</td>
+                    <td>八尾市綜合体育館「ウイング」</td>
+                    <td></td>
+                    <td></td>
+                    <td><button onclick="checkLocation(34.6223992, 135.6132701, '八尾市綜合体育館')">GPS確認</button></td>
+                    </tr>
+                    <tr>
+                    <td>2025/02/08</td>
+                    <td>13:00</td>
+                    <td>香川銀行GiraSol kagawa</td>
+                    <td>金沢市総合体育館</td>
+                    <td></td>
+                    <td></td>
+                    <td><button onclick="checkLocation(36.5400026, 136.6501831, '金沢市総合体育館')">GPS確認</button></td>
+                    </tr>
+                    <tr>
+                    <td>2025/02/11</td>
+                    <td>13:30</td>
+                    <td>ＨＣ名古屋</td>
+                    <td>枇杷島スポーツセンター</td>
+                    <td></td>
+                    <td></td>
+                    <td><button onclick="checkLocation(35.1887743, 136.8500071, '枇杷島スポーツセンター')">GPS確認</button></td>
+                    </tr>
+                    <tr>
+                    <td>2025/02/15</td>
+                    <td>13:00</td>
+                    <td>イズミメイプルレッズ広島</td>
+                    <td>金沢市総合体育館</td>
+                    <td></td>
+                    <td></td>
+                    <td><button onclick="checkLocation(36.5400026, 136.6501831, '金沢市総合体育館')">GPS確認</button></td>
+                    </tr>
+                    <tr>
+                    <td>2025/02/22</td>
+                    <td>13:00</td>
+                    <td>熊本ビューストピンディーズ</td>
+                    <td>山鹿市総合体育館</td>
+                    <td></td>
+                    <td></td>
+                    <td><button onclick="checkLocation(36.403964896025, 136.43712669201, '小松総合体育館')">GPS確認</button></td>
+                    </tr>
+                    <tr>
+                    <td>2025/02/24</td>
+                    <td>13:00</td>
+                    <td>飛騨高山ブラックブルズ岐阜</td>
+                    <td>金沢市総合体育館</td>
+                    <td></td>
+                    <td></td>
+                    <td><button onclick="checkLocation(36.5400026, 136.6501831, '金沢市総合体育館')">GPS確認</button></td>
+                    </tr>
+                    <tr>
+                    <td>2025/03/02</td>
+                    <td>14:00</td>
+                    <td>ザ・テラスホテルズ　ラティーダ琉球</td>
+                    <td>小松総合体育館</td>
+                    <td></td>
+                    <td></td>
+                    <td><button onclick="checkLocation(36.403964896025, 136.43712669201, '小松総合体育館')">GPS確認</button></td>
+                    </tr>
+                    <tr>
+                    <td>2025/03/09</td>
+                    <td>13:30</td>
+                    <td>三重バイオレットアイリス</td>
+                    <td>津市産業スポーツセンター</td>
+                    <td></td>
+                    <td></td>
+                    <td><button onclick="checkLocation(34.727253, 136.478426, '津市産業スポーツセンター')">GPS確認</button></td>
+                    </tr>
+                    <tr>
+                    <td>2025/03/16</td>
+                    <td>13:00</td>
+                    <td>プレステージ・インターナショナル　アランマーレ富山</td>
+                    <td>金沢市総合体育館</td>
+                    <td></td>
+                    <td></td>
+                    <td><button onclick="checkLocation(36.5400026, 136.6501831, '金沢市総合体育館')">GPS確認</button></td>
+                    </tr>
+                    <tr>
+                    <td>2025/03/20</td>
+                    <td>14:00</td>
+                    <td>ソニーセミコンダクタマニュファクチャリング　ブルーサクヤ鹿児島</td>
+                    <td>桷志田体育館（霧島市国分体育館）</td>
+                    <td></td>
+                    <td></td>
+                    <td><button onclick="checkLocation(31.7477007, 130.7751315, '桷志田体育館（霧島市国分体育館）')">GPS確認</button></td>
+                    </tr>
+                    <tr>
+                    <td>2025/03/29</td>
+                    <td>13:00</td>
+                    <td>大阪ラヴィッツ</td>
+                    <td>金沢市総合体育館</td>
+                    <td></td>
+                    <td></td>
+                    <td><button onclick="checkLocation(36.5400026, 136.6501831, '金沢市総合体育館')">GPS確認</button></td>
+                    </tr>
+                    <tr>
+                    <td>2025/04/13</td>
+                    <td>14:00</td>
+                    <td>ＨＣ名古屋</td>
+                    <td>小松総合体育館</td>
+                    <td></td>
+                    <td></td>
+                    <td><button onclick="checkLocation(36.403964896025, 136.43712669201, '小松総合体育館')">GPS確認</button></td>
+                    </tr>
+                    <tr>
+                    <td>2025/04/19</td>
+                    <td>14:00</td>
+                    <td>イズミメイプルレッズ広島</td>
+                    <td>コジマホールディングス中区スポーツセンター</td>
+                    <td></td>
+                    <td></td>
+                    <td><button onclick="checkLocation(34.375647, 132.4571586, 'コジマホールディングス中区スポーツセンター')">GPS確認</button></td>
+                    </tr>
+                    <tr>
+                    <td>2025/04/29</td>
+                    <td>未定</td>
+                    <td>香川銀行GiraSol kagawa</td>
+                    <td>飛騨高山ビッグアリーナ</td>
+                    <td></td>
+                    <td></td>
+                    <td><button onclick="checkLocation(36.1505567, 137.2327984, '飛騨高山ビッグアリーナ')">GPS確認</button></td>
+                    </tr>
+                    <tr>
+                    <td>2025/05/10</td>
+                    <td>13:30</td>
+                    <td>プレステージ・インターナショナル　アランマーレ富山</td>
+                    <td>アルビス小杉総合体育センター</td>
+                    <td></td>
+                    <td></td>
+                    <td><button onclick="checkLocation(36.7234187, 137.11344, 'アルビス小杉総合体育センター')">GPS確認</button></td>
+                    </tr>
+                    <tr>
+                    <td>2025/05/18</td>
+                    <td>14:00</td>
+                    <td>ソニーセミコンダクタマニュファクチャリング　ブルーサクヤ鹿児島</td>
+                    <td>小松総合体育館</td>
+                    <td></td>
+                    <td></td>
+                    <td><button onclick="checkLocation(36.403964896025, 136.43712669201, '小松総合体育館')">GPS確認</button></td>
+                    </tr>
+                    </tbody>
+                    
+            </table>
+            <p id="locationMessage" style="margin-top: 20px; color: green;"></p>
+        </section>
+        <section id="players">
+            <h2>選手情報</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>背番号</th>
+                        <th>ポジション</th>
+                        <th>名前</th>
+                        <th>英字表記</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>GK</td><td>舟久保 朱音</td><td>Akane FUNAKUBO</td></tr>
+                    <tr><td>2</td><td>LB</td><td>辻野 桃佳</td><td>Momoka TSUJINO</td></tr>
+                    <tr><td>3</td><td>RW</td><td>松倉 みのり</td><td>Minori MATSUKURA</td></tr>
+                    <tr><td>4</td><td>RB</td><td>安田 つぐみ</td><td>Tsugumi YASUDA</td></tr>
+                    <tr><td>5</td><td>LB</td><td>瀧川 璃紗</td><td>Risa TAKIGAWA</td></tr>
+                    <tr><td>6</td><td>LB</td><td>前田 みのり</td><td>Minori MAEDA</td></tr>
+                    <tr><td>9</td><td>PV</td><td>尾辻 素乃子</td><td>Sonoko OTSUJI</td></tr>
+                    <tr><td>10</td><td>BP</td><td>小柴 夏輝</td><td>Natsuki KOSHIBA</td></tr>
+                    <tr><td>11</td><td>CB</td><td>瀧石 涼伽</td><td>Suzuka TAKIISHI</td></tr>
+                    <tr><td>12</td><td>GK</td><td>馬場 敦子</td><td>Atsuko BABA</td></tr>
+                    <tr><td>13</td><td>PV</td><td>佐原 奈生子</td><td>Naoko SAHARA</td></tr>
+                    <tr><td>14</td><td>CB・LW</td><td>對馬 おとめ</td><td>Otome TSUSHIMA</td></tr>
+                    <tr><td>15</td><td>RB</td><td>髙橋 ひなた</td><td>Hinata TAKAHASHI</td></tr>
+                    <tr><td>16</td><td>GK</td><td>犀藤 菜穂</td><td>Naho SAITO</td></tr>
+                    <tr><td>17</td><td>LW</td><td>吉留 有紀</td><td>Yuki YOSHIDOME</td></tr>
+                    <tr><td>21</td><td>LW</td><td>松本 ひかる</td><td>Hikaru MATSUMOTO</td></tr>
+                    <tr><td>22</td><td>LB</td><td>竹内 琉奈</td><td>Runa TAKEUCHI</td></tr>
+                    <tr><td>29</td><td>GK</td><td>柿添 まどか</td><td>Madoka KAKIZOE</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+    <footer>
+        &copy; 2024 プロスポーツチーム All Rights Reserved.
+    </footer>
+    <script>
+        let points = parseInt(localStorage.getItem('points')) || 0;
+
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+        function showPoints() {
+            alert(`現在のポイント: ${points}`);
+        }
+
+        function checkLocation(targetLat, targetLng, venueName) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const userLat = position.coords.latitude;
+                    const userLng = position.coords.longitude;
+                    const distance = getDistance(userLat, userLng, targetLat, targetLng);
+
+                    const message = document.getElementById('locationMessage');
+                    if (distance < 3.0) { // 半径500m以内
+                        message.textContent = `${venueName}に到着しました！ポイントが付与されました！`;
+                        points += 10;
+                        localStorage.setItem('points', points);
+                    } else {
+                        message.textContent = `${venueName}周辺にいません。正しい場所で確認してください。`;
+                    }
+                }, () => {
+                    alert("位置情報を取得できませんでした。");
+                });
+            } else {
+                alert("このブラウザでは位置情報がサポートされていません。");
+            }
+        }
+
+        function getDistance(lat1, lng1, lat2, lng2) {
+            const R = 6371; // 地球の半径（km）
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLng = (lng2 - lng1) * Math.PI / 180;
+            const a = 
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLng / 2) * Math.sin(dLng / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c; // 距離（km）
+        }
+
+        // 初期表示はニュースタブ
+        showSection('news');
+    </script>
+</body>
+</html>
